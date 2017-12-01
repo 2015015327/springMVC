@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>传智商城 - 后台管理系统</title>
+<link rel="stylesheet" href="./public/admin/style.css" />
+<script src="./public/common/jquery.min.js"></script>
+<script src="./public/common/ajaxForm.js"></script>
+</head>
+<body><div class="top">
+	<h1>传智商城 <span>后台管理系统</span></h1>
+	<ul>
+		<li>欢迎您：admin</li>
+		<li><a href="/" target="_blank">前台首页</a></li>
+		<li><a href="/?p=admin&c=login&a=logout">退出登录</a></li>
+	</ul>
+</div><div class="main">
+	<div class="menu">
+	<div class="box">
+		<div class="head"><i></i><div>管理菜单</div></div>
+		<ul><li><a href="/?p=admin&c=index&a=index">后台首页</a></li>
+			<li><a href="/?p=admin&c=goods&a=add" id="goods_add">商品添加</a></li>
+			<li><a href="/?p=admin&c=goods&a=index" id="goods_index">商品列表</a></li>
+			<li><a href="/?p=admin&c=category&a=add" id="category_add">分类添加</a></li>
+			<li><a href="/?p=admin&c=category&a=index" id="category_index">分类列表</a></li>
+			<li><a href="/?p=admin&c=recycle&a=index" id="recycle_index">回收站</a></li>
+			<li><a href="/?p=admin&c=user&a=index" id="user_index">会员管理</a></li>
+		</ul>
+	</div>
+</div>
+<script>
+//点亮当前菜单
+$("#recycle_index").addClass("curr");
+</script>	<div class="content">
+	<div class="item">
+		<div class="title">商品回收站</div>
+		<div class="top-button">
+			相关操作：<a href="/?p=admin&c=goods&a=index" class="light">商品列表</a>
+		</div>
+		<div class="list full">
+		<table>
+		<tr><th class="t1">商品分类</th><th>商品名称</th><th width="100">库存</th><th width="60">上架</th><th width="60">推荐</th><th width="120">操作</th></tr>
+				<tr><td class="t1">.NET书籍</td><td>ASP.NET就业实例教程</td><td>2980</td>
+		<td>是</td><td>是</td><td>
+		<a href="#" class="act-rec" data-id="19">恢复</a>　<a href="#" class="act-del" data-id="19">删除</a></td></tr>
+				<tr><td class="t1">.NET书籍</td><td>C#程序设计基础入门教程</td><td>1858</td>
+		<td>是</td><td>是</td><td>
+		<a href="#" class="act-rec" data-id="18">恢复</a>　<a href="#" class="act-del" data-id="18">删除</a></td></tr>
+				<tr><td class="t1">iOS书籍</td><td>Objective-C入门教程</td><td>2235</td>
+		<td>是</td><td>是</td><td>
+		<a href="#" class="act-rec" data-id="14">恢复</a>　<a href="#" class="act-del" data-id="14">删除</a></td></tr>
+				</table>
+		</div>
+		<div class="pagelist"><span>首页</span><span>上一页</span><a href="/?p=admin&c=recycle&a=index&page=1" class="curr">1</a><span>下一页</span><span>尾页</span></div>
+	</div>
+	</div>
+</div>
+<script>
+//恢复
+$(".act-rec").ajaxButton("/?p=admin&c=recycle&a=recExec",function(){
+	return {"id":$(this).attr("data-id")};
+},function(data){
+	data.ok && location.reload(); //完成后刷新
+});
+//彻底删除
+$(".act-del").ajaxButton("/?p=admin&c=recycle&a=delExec",function(){
+	if(!confirm('确定要彻底删除吗？')){
+		return false;
+	}
+	return {"id":$(this).attr("data-id")};
+},function(data){
+	data.ok && location.reload(); //完成后刷新
+});
+</script>
+</body>
+</html>

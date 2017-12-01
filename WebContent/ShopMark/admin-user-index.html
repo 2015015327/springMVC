@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>传智商城 - 后台管理系统</title>
+<link rel="stylesheet" href="./public/admin/style.css" />
+<script src="./public/common/jquery.min.js"></script>
+<script src="./public/common/ajaxForm.js"></script>
+</head>
+<body><div class="top">
+	<h1>传智商城 <span>后台管理系统</span></h1>
+	<ul>
+		<li>欢迎您：admin</li>
+		<li><a href="/" target="_blank">前台首页</a></li>
+		<li><a href="/?p=admin&c=login&a=logout">退出登录</a></li>
+	</ul>
+</div><div class="main">
+	<div class="menu">
+	<div class="box">
+		<div class="head"><i></i><div>管理菜单</div></div>
+		<ul><li><a href="/?p=admin&c=index&a=index">后台首页</a></li>
+			<li><a href="/?p=admin&c=goods&a=add" id="goods_add">商品添加</a></li>
+			<li><a href="/?p=admin&c=goods&a=index" id="goods_index">商品列表</a></li>
+			<li><a href="/?p=admin&c=category&a=add" id="category_add">分类添加</a></li>
+			<li><a href="/?p=admin&c=category&a=index" id="category_index">分类列表</a></li>
+			<li><a href="/?p=admin&c=recycle&a=index" id="recycle_index">回收站</a></li>
+			<li><a href="/?p=admin&c=user&a=index" id="user_index">会员管理</a></li>
+		</ul>
+	</div>
+</div>
+<script>
+//点亮当前菜单
+$("#user_index").addClass("curr");
+</script>	<div class="content">
+	<div class="item">
+		<div class="title">会员列表</div>
+		<div class="list full">
+			<table>
+				<tr><th>会员ID</th><th>会员昵称</th><th>联系电话</th><th>邮箱</th><th>操作</th></tr>
+								<tr><td>5</td><td>测试</td><td>12312311111</td>
+			<td>112@11.com</td><td><a href="#">查看详情</a></td></tr><tr><td>4</td><td>李四</td><td>13812345678</td>
+			<td>123@test.com</td><td><a href="#">查看详情</a></td></tr><tr><td>3</td><td>测试用户</td><td>13812345678</td>
+			<td>test@123.com</td><td><a href="#">查看详情</a></td></tr><tr><td>2</td><td>张三</td><td>18312345678</td>
+			<td>test@123.com</td><td><a href="#">查看详情</a></td></tr><tr><td>1</td><td>test</td><td>13315428457</td>
+			<td>12345678@qq.com</td><td><a href="#">查看详情</a></td></tr>
+							</table>
+		</div>
+		<div class="pagelist"><span>首页</span><span>上一页</span><a href="/?p=admin&c=user&a=index&page=1" class="curr">1</a><span>下一页</span><span>尾页</span></div>
+	</div>
+	</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>传智商城 - 后台管理系统</title>
+<link rel="stylesheet" href="./public/admin/style.css" />
+<script src="./public/common/jquery.min.js"></script>
+<script src="./public/common/ajaxForm.js"></script>
+</head>
+<body><div class="top">
+	<h1>传智商城 <span>后台管理系统</span></h1>
+	<ul>
+		<li>欢迎您：admin</li>
+		<li><a href="/" target="_blank">前台首页</a></li>
+		<li><a href="/?p=admin&c=login&a=logout">退出登录</a></li>
+	</ul>
+</div><div class="main">
+	<div class="menu">
+	<div class="box">
+		<div class="head"><i></i><div>管理菜单</div></div>
+		<ul><li><a href="/?p=admin&c=index&a=index">后台首页</a></li>
+			<li><a href="/?p=admin&c=goods&a=add" id="goods_add">商品添加</a></li>
+			<li><a href="/?p=admin&c=goods&a=index" id="goods_index">商品列表</a></li>
+			<li><a href="/?p=admin&c=category&a=add" id="category_add">分类添加</a></li>
+			<li><a href="/?p=admin&c=category&a=index" id="category_index">分类列表</a></li>
+			<li><a href="/?p=admin&c=recycle&a=index" id="recycle_index">回收站</a></li>
+			<li><a href="/?p=admin&c=user&a=index" id="user_index">会员管理</a></li>
+		</ul>
+	</div>
+</div>
+<script>
+//点亮当前菜单
+$("#goods_edit").addClass("curr");
+</script>	<div class="content">
+	<div class="item">
+		<div class="title">商品修改</div>
+		<div class="top-button">相关操作：<a href="/?p=admin&c=goods&a=index" class="light">商品列表</a><a href="/?p=admin&c=category&a=add">添加分类</a></div>
+		<div class="mssage">修改成功。</div>		<div class="list auto">
+			<form method="post" action="/?p=admin&c=goods&a=editExec&id=9&cid=18&page=2" id="goods">
+			<div class="tab"><i class="curr">商品信息</i><i>商品相册</i><i>商品详情</i></div>
+			<!--商品信息-->
+			<table class="t2 t4 tab-each">
+				<tr><th>商品分类：</th><td><select name="category_id">
+					<option value="0">未选择</option>
+					<option value="1">图书</option><option value="9">— 音像</option><option value="15">— — 音乐</option><option value="16">— — 影视</option><option value="17">— — 游戏</option><option value="10">— IT类</option><option value="18"selected>— — PHP书籍</option><option value="19">— — JAVA书籍</option><option value="20">— — MySQL书籍</option><option value="21">— — C语言书籍</option><option value="22">— — 网页书籍</option><option value="33">— — Android书籍</option><option value="34">— — iOS书籍</option><option value="35">— — .NET书籍</option><option value="11">— 少儿</option><option value="23">— — 少儿英语</option><option value="24">— — 少儿文学</option><option value="12">— 管理</option><option value="25">— — 经济</option><option value="26">— — 金融</option><option value="27">— — 投资</option><option value="13">— 生活</option><option value="28">— — 旅游</option><option value="29">— — 运动</option><option value="14">— 艺术</option><option value="30">— — 摄影</option><option value="31">— — 设计</option><option value="32">— — 绘画</option><option value="2">家具</option><option value="3">手机</option><option value="4">服装</option><option value="5">家用电器</option><option value="6">电脑、办公</option><option value="7">运动户外</option><option value="8">家具、厨具</option>				</select></td></tr>
+				<tr><th>商品名称：</th><td><input type="text" name="name" class="big" value="PHP网站开发实例教程"></td></tr>
+				<tr><th>商品编号：</th><td><input type="text" name="sn" value="017"></td></tr>
+				<tr><th>商品价格：</th><td><input type="text" name="price" class="small" value="45.00"></td></tr>
+				<tr><th>商品库存：</th><td><input type="text" name="stock" class="small" value="2560"></td></tr>
+				<tr><th>是否上架：</th><td><select name="on_sale">
+					<option value="yes" selected>是</option>
+					<option value="no" >否</option>
+				</select></td></tr>
+				<tr><th>首页推荐：</th><td><select name="recommend">
+					<option value="yes" selected>是</option>
+					<option value="no" >否</option>
+				</select></td></tr>
+			</table>
+			<!--商品相册-->
+			<div class="album tab-each">
+				<link href="./public/admin/uploadify/uploadify.css" rel="stylesheet" />
+<script src="./public/admin/uploadify/jquery.uploadify.min.js"></script>
+<div class="album-upload">
+	<input id="file_upload" type="file" multiple="true" />
+</div>
+<div class="album-list"></div>
+<script>
+//文件上传
+$("#file_upload").uploadify({
+	"formData":{"token":$.getCSRFToken(),"PHPSESSID":""},
+	"swf":"./public/admin/uploadify/uploadify.swf", //Flash文件
+	"uploader":"?p=admin&c=upload&a=uploadify", //上传地址
+	"buttonText":"选择图片上传", //按钮文本
+	"fileObjName":"upfile",
+	"onUploadSuccess":function(file, data, response){
+		if(response){
+			data = $.parseJSON(data);
+			if(data.state==="SUCCESS"){
+				albumAdd({"src":data.url,"isThumb":false});
+			}else{
+				$.showTip(data.state); //上传失败，显示错误信息
+			}
+		}
+	}
+});
+//默认显示相册图片
+(function(){
+	var album = ["2016-01\/20\/14532755521080.png","2016-01\/20\/14532755631144.png","2016-01\/20\/14532755741690.png","2016-01\/20\/14532755832918.png"]; //相册数据
+	var thumb = "2016-01/20/14532726052513.png"; //封面图
+	thumb && album.unshift(thumb);//将封面图追加到相册
+	for(var i in album){
+		//添加图片 {相册，封面图}
+		albumAdd({"src":album[i],"isThumb":(thumb===album[i])});
+	}
+})();
+//向相册添加一张图片
+function albumAdd(data){
+	var url = "./public/upload/big/"; //上传目录
+	var $obj = $(".album-list"); //追加对象
+	var $wrap = $('<div class="album-each"><img /><p><i>设为封面</i><i>删除</i></p><input type="hidden" /></div>');
+	$wrap.find('img').attr("src",url+data.src);
+	$wrap.find("i:first").click(setThumb);
+	$wrap.find("i:last").click(removeMe);
+	if(data.isThumb){
+		$wrap.find("input").attr("name","thumb").val(data.src);
+		$wrap.find("i:first").text("当前封面").addClass("light");
+	}else{
+		$wrap.find("input").attr("name","album[]").val(data.src);
+	}
+	$obj.append($wrap);
+	//设为封面
+	function setThumb(){
+		//取消原来的封面
+		var $each = $(".album-each");
+		$each.find("i:first").text("设为封面").removeClass("light");
+		$each.find("input[name=thumb]").attr("name","album[]");
+		//将当前设为封面
+		var pObj = $(this).parents(".album-each");
+		pObj.find("i:first").text("当前封面").addClass("light");
+		pObj.find("input").attr("name","thumb");
+	}
+	//删除图片
+	function removeMe(){
+		//从页面中删除
+		$(this).parents(".album-each").remove();
+	}
+}
+</script>			</div>
+			<!--商品详情-->
+			<div class="editor tab-each">
+				<link href="./public/admin/umeditor/themes/default/css/umeditor.min.css" rel="stylesheet">
+<script src="./public/admin/umeditor/umeditor.config.js"></script>
+<script src="./public/admin/umeditor/umeditor.min.js"></script>
+<script>
+$(function(){
+	//载入在线编辑器
+	UM.getEditor("myEditor",{
+		//图片上传提交地址，携带令牌
+		"imageUrl":"?p=admin&c=upload&a=umeditor",
+		//图片上传后的显示地址
+		"imagePath":"/public/upload/desc/"
+	});
+	//为图片上传表单添加CSRF令牌
+	$(document).one("click",".edui-image-file",function(){
+		var token = $.getCSRFToken();
+		$(".edui-image-form").append('<input type="hidden" name="token" value="'+token+'" />');
+	});
+});
+</script>				<script type="text/plain" id="myEditor" name="desc"><p style="margin-top:1.12em;margin-bottom:1.12em;padding:0px;line-height:1.4;color:rgb(64,64,64);font-family:tahoma, arial, '宋体', sans-serif;white-space:normal;"><span style="margin:0px;padding:0px;"><span style="margin:0px;padding:0px;color:rgb(0,0,0);font-size:18px;line-height:1.5;">PHP是一种运行于服务器端并完全跨平台的嵌入式脚本编程语言，是目前Web应用的主流语言之一。本书就是面向初学者推出的一本案例驱动式教材，通过丰富实用的案例，全面讲解了PHP网站的开发技术。</span></span></p><p style="margin-top:1.12em;margin-bottom:1.12em;padding:0px;line-height:1.4;color:rgb(64,64,64);font-family:tahoma, arial, '宋体', sans-serif;white-space:normal;"><span style="margin:0px;padding:0px;"><span style="margin:0px;padding:0px;"> </span><span style="margin:0px;padding:0px;font-size:18px;">全书共9章：第1章讲解PHP开发环境搭建，通过部署网站的方式，让初学者了解基于PHP和MySQL的成熟开源项目的运行过程；第2章以趣味的案例学习PHP语法基础；第3章通过开发企业员工管理系统来学习PHP的数据库操作；第4章通过用户登录注册、用户信息编辑、表单安全验证、保存浏览历史、用户登录、保存登录状态等案例学习Web表单与会话技术；第5章通过用户头像上传、生成缩略图、图片添加水印、验证码生成与验证、文件管理器、在线网盘等案例来学习文件与图像技术；第6～8章通过常用类库封装、文章管理系统、学生管理系统等实用案例学习面向对象编程、<span style="margin:0px;padding:0px;"> </span><span style="margin:0px;padding:0px;"> </span>PDO数据库抽象层和ThinkPHP框架；第9章通过开发实战项目——电子商城网站，综合运用本书所学的知识，让读者迅速积累项目开发经验。</span></span></p><p style="margin-top:1.12em;margin-bottom:1.12em;padding:0px;line-height:1.4;color:rgb(64,64,64);font-family:tahoma, arial, '宋体', sans-serif;white-space:normal;"><span style="margin:0px;padding:0px;font-size:18px;">本书附有配套视频、源代码、习题、教学课件等资源，为了帮助初学者更好地学习本书讲解的内容，还提供了在线答疑，希望得到更多读者的关注。</span></p><p style="margin-top:1.12em;margin-bottom:1.12em;padding:0px;line-height:1.4;color:rgb(64,64,64);font-family:tahoma, arial, '宋体', sans-serif;white-space:normal;"><span style="margin:0px;padding:0px;font-size:18px;">本书适合作为高等院校计算机相关专业程序设计或者Web应用开发的教材，也可作为PHP技术基础的培训教材，同时也是一本适合广大计算机编程爱好者的优秀读物。</span></p></script>
+			</div>
+			<div class="btn">
+				<input type="submit" value="修改商品" />
+				<input type="submit" value="修改并返回" name="return" />
+			</div>
+		</form>
+		</div>
+	</div>
+	</div>
+</div>
+<script>
+$(".tab-each:first").show(); //默认显示第1个
+//TAB切换
+$(".tab i").click(function(){
+	$(".tab-each").hide();
+	$(".tab-each").eq($(this).index()).show();
+	$(".tab i").removeClass("curr");
+	$(this).addClass("curr");
+});
+//Ajax提交表单
+$("#goods").ajaxForm();
+</script>
+</body>
+</html>

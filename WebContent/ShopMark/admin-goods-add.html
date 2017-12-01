@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>传智商城 - 后台管理系统</title>
+<link rel="stylesheet" href="./public/admin/style.css" />
+<script src="./public/common/jquery.min.js"></script>
+<script src="./public/common/ajaxForm.js"></script>
+</head>
+<body>
+<div class="top">
+	<h1>传智商城 <span>后台管理系统</span></h1>
+	<ul>
+		<li>欢迎您：admin</li>
+		<li><a href="/" target="_blank">前台首页</a></li>
+		<li><a href="/?p=admin&c=login&a=logout">退出登录</a></li>
+	</ul>
+</div>
+<div class="main">
+	<div class="menu">
+		<div class="box">
+			<div class="head"><i></i><div>管理菜单</div></div>
+			<ul><li><a href="/?p=admin&c=index&a=index">后台首页</a></li>
+				<li><a href="/?p=admin&c=goods&a=add" id="goods_add">商品添加</a></li>
+				<li><a href="/?p=admin&c=goods&a=index" id="goods_index">商品列表</a></li>
+				<li><a href="/?p=admin&c=category&a=add" id="category_add">分类添加</a></li>
+				<li><a href="/?p=admin&c=category&a=index" id="category_index">分类列表</a></li>
+				<li><a href="/?p=admin&c=recycle&a=index" id="recycle_index">回收站</a></li>
+				<li><a href="/?p=admin&c=user&a=index" id="user_index">会员管理</a></li>
+			</ul>
+		</div>
+	</div>
+<script>
+//点亮当前菜单
+$("#goods_add").addClass("curr");
+</script>
+<div class="content">
+	<div class="item">
+		<div class="title">商品添加</div>
+		<div class="top-button">相关操作：<a href="/?p=admin&c=goods&a=index" class="light">商品列表</a><a href="/?p=admin&c=category&a=add">添加分类</a></div>
+			<div class="list auto">
+		<form method="post" action="/?p=admin&c=goods&a=addExec" id="goods">
+			<div class="tab"><i class="curr">商品信息</i><i>商品相册</i><i>商品详情</i></div>
+			<!--商品信息-->
+			<table class="t2 t4 tab-each">
+				<tr><th>商品分类：</th><td><select name="category_id">
+					<option value="0">未选择</option>
+					<option value="1">测试</option><option value="2">测试22</option>				</select></td></tr>
+				<tr><th>商品名称：</th><td><input type="text" name="name" class="big"></td></tr>
+				<tr><th>商品编号：</th><td><input type="text" name="sn" ></td></tr>
+				<tr><th>商品价格：</th><td><input type="text" name="price" class="small"></td></tr>
+				<tr><th>商品库存：</th><td><input type="text" name="stock" class="small"></td></tr>
+				<tr><th>是否上架：</th><td><select name="on_sale"><option value="yes" selected>是</option><option value="no">否</option></select></td></tr>
+				<tr><th>首页推荐：</th><td><select name="recommend"><option value="yes">是</option><option value="no" selected>否</option></select></td></tr>
+			</table>
+			<!--商品相册-->
+			<div class="album tab-each">
+				<link href="./public/admin/uploadify/uploadify.css" rel="stylesheet" />
+				<script src="./public/admin/uploadify/jquery.uploadify.min.js"></script>
+				<div class="album-upload">
+					<input id="file_upload" type="file" multiple="true" />
+				</div>
+				<div class="album-list"></div>
+<script>
+//文件上传
+$("#file_upload").uploadify({
+	"formData":{},
+	"swf":"./public/admin/uploadify/uploadify.swf", //Flash文件
+	"uploader":"?p=admin&c=upload&a=uploadify", //上传地址
+	"buttonText":"选择图片上传", //按钮文本
+	"fileObjName":"upfile",
+	"onUploadSuccess":function(file, data, response){
+	}
+});
+</script>
+		</div>
+		<!--商品详情-->
+		<div class="editor tab-each">
+			<link href="./public/admin/umeditor/themes/default/css/umeditor.min.css" rel="stylesheet">
+			<script src="./public/admin/umeditor/umeditor.config.js"></script>
+			<script src="./public/admin/umeditor/umeditor.min.js"></script>
+<script>
+$(function(){
+	//载入在线编辑器
+	UM.getEditor("myEditor",{
+		//图片上传提交地址，携带令牌
+		"imageUrl":"?p=admin&c=upload&a=umeditor",
+		//图片上传后的显示地址
+		"imagePath":"/public/upload/desc/"
+	});
+});
+</script>
+<script type="text/plain" id="myEditor" name="desc"><p>请在此处输入商品详情。</p></script>
+		</div>
+		<div class="btn">
+			<input type="submit" value="添加商品" />
+			<input type="submit" value="添加并返回" name="return" />
+		</div>
+	</form>
+	</div>
+	</div>
+	</div>
+</div>
+<script>
+$(".tab-each:first").show(); //默认显示第1个
+//TAB切换
+$(".tab i").click(function(){
+	$(".tab-each").hide();
+	$(".tab-each").eq($(this).index()).show();
+	$(".tab i").removeClass("curr");
+	$(this).addClass("curr");
+});
+</script>
+</body>
+</html>

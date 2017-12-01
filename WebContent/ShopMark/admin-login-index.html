@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>传智商城 - 后台管理系统</title>
+<link rel="stylesheet" href="./public/admin/style.css" />
+</head>
+<body><div class="top">
+	<h1>传智商城 <span>后台管理系统</span></h1>
+</div>
+<div class="login">
+	<h1>欢迎访问后台</h1>
+	<form method="post" id="loginForm" action="/?p=admin&c=login&a=loginExec">
+		<table>
+			<tr><th width="80">用户名：</th><td><input class="input" type="text" name="username" required /></td></tr>
+			<tr><th>密　码：</th><td><input class="input" type="password" name="password" required /></td></tr>
+			<tr><th>验证码：</th><td><input class="input" type="text" name="captcha" required /></td></tr>
+			<tr><td> </td><td><img src="./public/common/captcha.png" id="captcha" title="点击刷新验证码"/></td></tr>
+			<tr><td> </td><td><input class="login_btn" type="submit" value="登录" /></td></tr>
+		</table>
+	</form>
+</div>
+</body>
+</html>
